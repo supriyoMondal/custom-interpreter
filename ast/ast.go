@@ -3,7 +3,7 @@ package ast
 import "custom-interpreter/token"
 
 type Node interface {
-	TokeLiteral() string
+	TokenLiteral() string
 }
 
 type Statement interface {
@@ -19,9 +19,9 @@ type Program struct {
 	Statement []Statement
 }
 
-func (p *Program) TokeLiteral() string {
+func (p *Program) TokenLiteral() string {
 	if len(p.Statement) > 0 {
-		return p.Statement[0].TokeLiteral()
+		return p.Statement[0].TokenLiteral()
 	} else {
 		return ""
 	}
@@ -29,8 +29,8 @@ func (p *Program) TokeLiteral() string {
 
 type LetStatement struct {
 	Token token.Token
-	Name  Identifier
-	Value string
+	Name  *Identifier
+	Value Expression
 }
 
 func (ls *LetStatement) statementNode() {}
@@ -43,5 +43,5 @@ type Identifier struct {
 	Value string
 }
 
-func (i *Identifier) expressionNode()     {}
-func (i *Identifier) TokeLiteral() string { return i.Token.Literal }
+func (i *Identifier) expressionNode()      {}
+func (i *Identifier) TokenLiteral() string { return i.Token.Literal }
