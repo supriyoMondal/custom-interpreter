@@ -21,9 +21,9 @@ let foobar = 838383;
 		t.Fatalf("Parser program() returned nil")
 	}
 
-	if len(program.Statement) != 3 {
+	if len(program.Statements) != 3 {
 		t.Fatalf("program.Statements does not contain 3 statements. got=%d",
-			len(program.Statement))
+			len(program.Statements))
 	}
 	tests := []struct {
 		expectedIdentifier string
@@ -34,7 +34,7 @@ let foobar = 838383;
 	}
 
 	for i, tt := range tests {
-		stmt := program.Statement[i]
+		stmt := program.Statements[i]
 		if !testLetStatement(t, stmt, tt.expectedIdentifier) {
 			return
 		}
@@ -55,11 +55,11 @@ func TestReturnStatement(t *testing.T) {
 	program := p.ParseProgram()
 	checkParserErrors(t, p)
 
-	if len(program.Statement) != 3 {
-		t.Fatalf("Program.statement does not contain 3 statements. got=%d", len(program.Statement))
+	if len(program.Statements) != 3 {
+		t.Fatalf("Program.statement does not contain 3 statements. got=%d", len(program.Statements))
 	}
 
-	for _, stmt := range program.Statement {
+	for _, stmt := range program.Statements {
 		returnStmt, ok := stmt.(*ast.ReturnStatement)
 
 		if !ok {
