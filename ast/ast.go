@@ -156,9 +156,9 @@ func (pr *InfixExpression) String() string {
 	var out bytes.Buffer
 
 	out.WriteString("(")
-	out.WriteString(pr.Right.String())
-	out.WriteString(" " + pr.Operator + " ")
 	out.WriteString(pr.Left.String())
+	out.WriteString(" " + pr.Operator + " ")
+	out.WriteString(pr.Right.String())
 	out.WriteString(")")
 
 	return out.String()
