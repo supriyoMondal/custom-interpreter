@@ -8,8 +8,6 @@ import (
 	"strconv"
 )
 
-var test = "h"
-
 const (
 	_ int = iota
 	LOWEST
