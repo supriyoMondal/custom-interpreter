@@ -35,8 +35,8 @@ const (
 
 	LPAREN = "("
 	RPAREN = ")"
-	RBRACE = "{"
-	LBRACE = "}"
+	LBRACE = "{"
+	RBRACE = "}"
 
 	// keywords
 	FUNCTION = "FUNCTION"
