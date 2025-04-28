@@ -1,10 +1,11 @@
 package evaluator
 
 import (
+	"testing"
+
 	"custom-interpreter/lexer"
 	"custom-interpreter/object"
 	"custom-interpreter/parser"
-	"testing"
 )
 
 func TestIntegerExpression(t *testing.T) {
@@ -34,6 +35,7 @@ func TestIntegerExpression(t *testing.T) {
 		testIntegerObject(t, evaluated, tt.expected)
 	}
 }
+
 func TestBooleanExpression(t *testing.T) {
 	tests := []struct {
 		input    string
@@ -65,6 +67,7 @@ func TestBooleanExpression(t *testing.T) {
 		testBooleanExpression(t, evaluated, tt.expected)
 	}
 }
+
 func TestBandOperator(t *testing.T) {
 	tests := []struct {
 		input    string
@@ -107,6 +110,7 @@ func TestIfElseExpression(t *testing.T) {
 
 	}
 }
+
 func TestReturnStatements(t *testing.T) {
 	tests := []struct {
 		input    string
@@ -165,8 +169,10 @@ return true + false;
 }
 return 1;
 }`, "unknown operator: BOOLEAN + BOOLEAN"},
-		{"foobar",
-			"identifier not found: foobar"},
+		{
+			"foobar",
+			"identifier not found: foobar",
+		},
 	}
 
 	for _, tt := range input {
@@ -216,6 +222,23 @@ func TestFunctionObject(t *testing.T) {
 	expectedBody := "(x + 2)"
 	if fn.Body.String() != expectedBody {
 		t.Fatalf("body is not %q. got=%q", expectedBody, fn.Body.String())
+	}
+}
+
+func TestFunctionApplication(t *testing.T) {
+	inputs := []struct {
+		input    string
+		expected int64
+	}{
+		{"let identity = fn(x) { x; }; identity(5);", 5},
+		{"let identity = fn(x) { return x; }; identity(5);", 5},
+		{"let double = fn(x) { x * 2; }; double(5);", 10},
+		{"let add = fn(x, y) { x + y; }; add(5, 5);", 10},
+		{"let add = fn(x, y) { x + y; }; add(5 + 5, add(5, 5));", 20},
+		{"fn(x) { x; }(5)", 5},
+	}
+	for _, tt := range inputs {
+		testIntegerObject(t, testEval(tt.input), tt.expected)
 	}
 }
 
