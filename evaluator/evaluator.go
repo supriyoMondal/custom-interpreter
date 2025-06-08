@@ -176,9 +176,21 @@ func evalInfixExpression(operator string, left, right object.Object) object.Obje
 		{
 			return newError("type mismatch: %s %s %s", left.Type(), operator, right.Type())
 		}
+	case left.Type() == object.STRING_OBJECT && right.Type() == object.STRING_OBJECT:
+		return evalStringInfixExpression(operator, left, right)
 	default:
 		return newError("unknown operator: %s %s %s", left.Type(), operator, right.Type())
 	}
+}
+func evalStringInfixExpression(operator string, left, right object.Object) object.Object {
+	if operator != "+" {
+		return newError("unknown operator: %s %s %s",
+			left.Type(), operator, right.Type())
+	}
+	leftVal := left.(*object.String).Value
+	rightVal := right.(*object.String).Value
+
+	return &object.String{Value: leftVal + rightVal}
 }
 
 func evalIntegerInInfixExpression(operator string, left, right object.Object) object.Object {
