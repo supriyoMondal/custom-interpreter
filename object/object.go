@@ -14,6 +14,7 @@ const (
 	RETURN_VALUE_OBJECT = "RETURN_VALUE"
 	ERROR_OBJ           = "ERROR"
 	FUNCTION_OBJECT     = "FUNCTION"
+	STRING_OBJECT       = "STRING"
 )
 
 type ObjectType string
@@ -60,6 +61,15 @@ type Error struct {
 
 func (e *Error) Type() ObjectType { return ERROR_OBJ }
 func (e *Error) Inspect() string  { return "Error: " + e.Message }
+
+type String struct {
+	Value string
+}
+
+func (s *String) Type() ObjectType {
+	return STRING_OBJECT
+}
+func (s *String) Inspect() string { return s.Value }
 
 type Function struct {
 	Parameters []*ast.Identifier
