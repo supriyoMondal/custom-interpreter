@@ -15,6 +15,7 @@ const (
 	ERROR_OBJ           = "ERROR"
 	FUNCTION_OBJECT     = "FUNCTION"
 	STRING_OBJECT       = "STRING"
+	BUILTIN_OBJ         = "BUILTIN"
 )
 
 type ObjectType string
@@ -75,6 +76,16 @@ type Function struct {
 	Parameters []*ast.Identifier
 	Body       *ast.BlockStatement
 	Env        *Environment
+}
+
+type BuiltinFunction func(args ...Object) Object
+type Builtin struct {
+	Fn BuiltinFunction
+}
+
+func (b *Builtin) Type() ObjectType { return BUILTIN_OBJ }
+func (b *Builtin) Inspect() string {
+	return "builtin function"
 }
 
 func (f *Function) Type() ObjectType { return FUNCTION_OBJECT }
